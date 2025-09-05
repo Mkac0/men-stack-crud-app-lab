@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 require('dotenv').config();
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000;
 
 const path = require("path");
 const mongoose = require('mongoose');
@@ -24,6 +24,7 @@ const Blog = require('./models/blog.js');
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.get("/", async (req, res) => {
@@ -40,24 +41,23 @@ app.get("/blog/new", (req, res) => {
 });
 
 app.get("/blog/:blogId", async (req, res) => {
-  const foundBlog = await Blog.findById(req.params.blogId, req.body);
-  res.render(`/blog/${req.params.blogId}`);
-});
-
-app.post("/blog", async (req, res) => {
-  try {
-    await Blog.create(req.body);
-    res.redirect("/blog/new");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to create blog");
-  }
-  res.redirect("/blog");
+  const foundBlog = await Blog.findById(req.params.blogId);
+  res.render("blog/show.ejs", { blog: foundBlog });
 });
 
 app.delete("/blog/:blogId", async (req, res) => {
   await Blog.findByIdAndDelete(req.params.blogId);
   res.redirect("/blog");
+});
+
+app.post("/blog", async (req, res) => {
+  try {
+    await Blog.create(req.body);
+    return res.redirect("/blog");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Failed to create blog");
+  }
 });
 
 app.get("/blog/:blogId/edit", async (req, res) => {
@@ -67,7 +67,12 @@ app.get("/blog/:blogId/edit", async (req, res) => {
   });
 });
 
+app.put("/blog/:blogId", async (req, res) => {
+  await Blog.findByIdAndUpdate(req.params.blogId, req.body);
+  res.redirect(`/blog/${req.params.blogId}`);
+});
+
 // Listener
-app.listen(3000, () => {
-  console.log('Listening on port 3000');
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });

@@ -11,13 +11,13 @@
     <div class="new body">
         <form action="/blog" method="POST">
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" />
+            <input type="text" name="name" id="name" required />
 
-            <label for="aboutMe">About Me</label>
-            <input type="text" name="aboutMe" id="aboutMe" />
+            <label for="description">Description</label>
+            <textarea name="description" id="description" required></textarea>
 
-            <label for="myBlogs">Blogs</label>
-            <input type="text" name="myBlogs" id="myBlogs" />
+            <label for="image">Image URL</label>
+            <input type="url" name="image" id="image">
 
             <button type="submit">Post Blog</button>
         </form>

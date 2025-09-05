@@ -7,9 +7,10 @@
 </head>
 <body>
     <h1>All Blogs</h1>
+    <a href="/blog/new">Add New Blog</a>
     <ul>
         <% blog.forEach(blog => { %>
-            <li><%= blog.name %></li>
+            <li><a href="/blog/<%= blog._id %>"><%= blog.name %></a></li>
         <% }); %>
     </ul>
 </body>

@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs</title>
+    <title>Document</title>
 </head>
 <body>
-    <h1>Start a Blog</h1>
-    <a href="/blog/">Back to Blogs</a>
-    <div class="new body">
-        <form action="/blog" method="POST">
+    <h1>Edit <%= blog.name %></h1>
+        <form action="/blog/<%=blog._id%>_method=PUT" method="POST">
             <label for="name">Name:</label>
-            <input type="text" name="name" id="name" />
+            <input type="text" name="name" value="<%= blog.name %>" />
 
             <label for="aboutMe">About Me</label>
             <input type="text" name="aboutMe" id="aboutMe" />
@@ -19,8 +17,8 @@
             <label for="myBlogs">Blogs</label>
             <input type="text" name="myBlogs" id="myBlogs" />
 
-            <button type="submit">Post Blog</button>
+            <button type="submit">Update Blog</button>
         </form>
-    </div>
+    <a href="/blog/">Back to Blogs</a>
 </body>
 </html>

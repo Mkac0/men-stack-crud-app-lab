@@ -6,6 +6,8 @@ const PORT = process.env.PORT
 
 const path = require("path");
 const mongoose = require('mongoose');
+const methodOverride = require("method-override");
+const morgan = require("morgan");
 const isSignedIn = require('./middleware/is-signed-in.js');
 const passUserToView = require('./middleware/pass-user-to-view.js');
 
@@ -21,6 +23,8 @@ const Blog = require('./models/blog.js');
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
+app.use(morgan("dev"));
 
 // Routes
 app.get("/", async (req, res) => {
@@ -37,8 +41,8 @@ app.get("/blog/new", (req, res) => {
 });
 
 app.get("/blog/:blogId", async (req, res) => {
-  const foundBlog = await Blog.findById(req.params.blogId);
-  res.render("blog/show.ejs", { blog: foundBlog });
+  const foundBlog = await Blog.findById(req.params.blogId, req.body);
+  res.render(`/blog/${req.params.blogId}`);
 });
 
 app.post("/blog", async (req, res) => {
@@ -50,6 +54,18 @@ app.post("/blog", async (req, res) => {
     res.status(500).send("Failed to create blog");
   }
   res.redirect("/blog");
+});
+
+app.delete("/blog/:blogId", async (req, res) => {
+  await Blog.findByIdAndDelete(req.params.blogId);
+  res.redirect("/blog");
+});
+
+app.get("/blog/:blogId/edit", async (req, res) => {
+  const foundBlog = await Blog.findById(req.params.blogId);
+  res.render("blog/edit.ejs", {
+    blog: foundBlog,
+  });
 });
 
 // Listener

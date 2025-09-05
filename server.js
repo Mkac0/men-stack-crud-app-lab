@@ -8,7 +8,6 @@ const path = require("path");
 const mongoose = require('mongoose');
 const methodOverride = require("method-override");
 const morgan = require("morgan");
-const passUserToView = require('./middleware/pass-user-to-view.js');
 
 // database
 mongoose.connect(process.env.MONGODB_URI);
@@ -42,7 +41,7 @@ app.get("/blog/new", (req, res) => {
 
 app.get("/blog/:blogId", async (req, res) => {
   const foundBlog = await Blog.findById(req.params.blogId);
-  res.render("blog/show.ejs", { blog: foundBlog });
+  res.render("blog/show.ejs", { blog });
 });
 
 app.delete("/blog/:blogId", async (req, res) => {

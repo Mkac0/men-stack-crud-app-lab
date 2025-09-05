@@ -32,7 +32,7 @@ app.get("/", async (req, res) => {
 
 app.get("/blog", async (req, res) => {
   const allBlogs = await Blog.find();
-  res.render("blog/index.ejs", { blog: allBlogs});
+  res.render("blog/index.ejs", { blogs: allBlogs });
 });
 
 app.get("/blog/new", (req, res) => {
@@ -41,7 +41,7 @@ app.get("/blog/new", (req, res) => {
 
 app.get("/blog/:blogId", async (req, res) => {
   const foundBlog = await Blog.findById(req.params.blogId);
-  res.render("blog/show.ejs", { blog });
+  res.render("blog/show.ejs", { blog: foundBlog });
 });
 
 app.delete("/blog/:blogId", async (req, res) => {

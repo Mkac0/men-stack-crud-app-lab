@@ -9,13 +9,13 @@
     <h1>Edit <%= blog.name %></h1>
         <form action="/blog/<%= blog._id %>?_method=PUT" method="POST">
             <label for="name">Name:</label>
-            <input type="text" name="name" value="<%= blog.name %>" />
+            <input type="text" name="name" id="name" value="<%= blog.name %>" />
 
             <label for="aboutMe">About Me</label>
-            <input type="text" name="aboutMe" id="aboutMe" />
+            <textarea name="aboutMe" id="aboutMe"><%= blog.aboutMe %></textarea>
 
-            <label for="myBlogs">Blogs</label>
-            <input type="text" name="myBlogs" id="myBlogs" />
+            <label for="image">Image URL</label>
+            <input type="url" name="image" value="<%= blog.image %>"/>
 
             <button type="submit">Update Blog</button>
         </form>

@@ -7,18 +7,18 @@
 </head>
 <body>
     <h1><%= blog.name %></h1>
+    <% if (blog.image) { %>
+        <img src="<%= blog.image %>">
+    <% } %>
+    <% if (blog.aboutMe) { %>
+        <p><strong>About Me:</strong> <%= blog.aboutMe %></p>
+    <% } %>
     <div class="blog-actions">
         <form class="delete-form" action="/blog/<%= blog._id %>?_method=DELETE" method="POST">
-        <button class="delete-button" type="submit">
-            Delete <%= blog.name %>
-        </button>
-    </form>
-        <a class="blog-index-link" href="/blog">
-            <div class="index-link-text">Back to Blogs</div>
-        </a>
-        <a class="edit-link" href="/blog/<%= blog._id %>/edit">
-            <div class="edit-text">Edit <%= blog.name %></div>
-        </a>
+            <button class="delete-button" type="submit">Delete <%= blog.name %></button>
+        </form>
+        <a class="blog-index-link" href="/blog">Back to Blogs</a>
+        <a class="edit-link" href="/blog/<%= blog._id %>/edit">Edit <%= blog.name %></a>
     </div>
 </body>
 </html>
